@@ -1,0 +1,13 @@
+main landing page 
+
+items display page 
+
+item detail page
+
+cart
+
+recommendation engine 
+
+online payment 
+
+reviews and account (maybe ??? i am too lazy)

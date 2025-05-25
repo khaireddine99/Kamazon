@@ -1,0 +1,11 @@
+<h2>Your Cart</h2>
+<a href="{% url 'shop:base' %}">Return to the shop</a>
+<ul>
+  {% for item in cart %}
+    <li>
+      {{ item.product.name }} - {{ item.quantity }} x {{ item.product.price }} = {{ item.total_price }}
+      <a href="{% url 'cart:cart_remove' item.product.id %}">Remove</a>
+    </li>
+  {% endfor %}
+</ul>
+<p>Total: {{ cart.get_total_price }}</p>

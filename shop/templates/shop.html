@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="shop-container">
+  <aside class="sidebar">
+  <div class="sidebar-header">
+    <h4>Filter by Category</h4>
+    <button type="button" id="clear-filters" class="clear-button" aria-label="Clear all filters">
+      ❌ Clear All
+    </button>
+  </div>
+
+  <form method="get" action="{% url 'shop:shop_items' %}" id="filter-form">
+    <fieldset class="checkbox-group">
+      {% for category in categories %}
+        <label class="sidebar-item">
+          <input type="checkbox" name="category" value="{{ category }}"
+                 {% if category in selected_categories %}checked{% endif %}>
+          <span>{{ category }}</span>
+        </label>
+      {% endfor %}
+    </fieldset>
+  </form>
+</aside>
+
+  <main class="shop-main">
+    <form method="get" class="sort-form">
+      <label for="sort_by"><strong>Sort by:</strong></label>
+      <select name="sort_by" id="sort_by">
+        <option value="price" {% if request.GET.sort_by == 'price' %}selected{% endif %}>Price</option>
+        <option value="review" {% if request.GET.sort_by == 'review' %}selected{% endif %}>Reviews</option>
+      </select>
+      <select name="order" id="order">
+        <option value="asc" {% if request.GET.order == 'asc' %}selected{% endif %}>Ascending</option>
+        <option value="desc" {% if request.GET.order == 'desc' %}selected{% endif %}>Descending</option>
+      </select>
+
+      {# Preserve other GET params as hidden inputs #}
+      {% for key, values in request.GET.lists %}
+        {% if key != 'sort_by' and key != 'order' and key != 'page' %}
+          {% for value in values %}
+            <input type="hidden" name="{{ key }}" value="{{ value }}">
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+
+      <button type="submit">Sort</button>
+    </form>
+
+    {% for item in items %}
+    <div class="item-card">
+      <div class="item-left">
+        <img src="{{ item.image }}" alt="Product image" class="item-image">
+      </div>
+      <div class="item-right">
+        <h2 class="item-title">{{ item }}</h2>
+        <p class="item-subtitle">{{ item.model }}</p>
+        <ul class="item-specs">
+          <li><strong> category: {{ item.category}} </strong></li>
+          <li><strong> sub category: {{item.sub_category}} </strong></li>
+        </ul>
+        <div class="item-actions">
+          <div class="price">{{ item.price }} $</div>
+          <form action="{% url 'cart:cart_add' item.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="add-to-cart">Add to cart</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    <div class="pagination">
+  {% if items.has_previous %}
+    <a href="?{{ query_string|safe }}&page={{ items.previous_page_number }}" class="pagination-button">« Previous</a>
+  {% endif %}
+
+  <span class="pagination-info">Page {{ items.number }} of {{ items.paginator.num_pages }}</span>
+
+  {% if items.has_next %}
+    <a href="?{{ query_string|safe }}&page={{ items.next_page_number }}" class="pagination-button">Next »</a>
+  {% endif %}
+</div>
+
+
+  </main>
+</div>
+{% endblock content %}
+

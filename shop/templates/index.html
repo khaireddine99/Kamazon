@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="swiper">
+    <div class="swiper-wrapper">
+        <!-- Slides -->
+        <div class="swiper-slide"><img src="{% static 'images/slide1.jpg' %}" alt="Image 1" style="width: 100%; height: auto;"></div>
+        <div class="swiper-slide"><img src="{% static 'images/slide2.jpg' %}" alt="Image 2" style="width: 100%; height: auto;"></div>
+        <div class="swiper-slide"><img src="{% static 'images/slide3.jpg' %}" alt="Image 3" style="width: 100%; height: auto;"></div>
+        <div class="swiper-slide"><img src="{% static 'images/slide4.jpg' %}" alt="Image 3" style="width: 100%; height: auto;"></div>
+    </div>
+    <!-- Pagination -->
+    <div class="swiper-pagination"></div>
+    <!-- Navigation buttons -->
+    <div class="swiper-button-prev" style="color: black; scale: 150%;"></div>
+    <div class="swiper-button-next" style="color: black; scale: 150%;"></div>
+</div>
+
+<!-- Grid display -->
+<div class="grid">
+  {% for item in items %}
+  <div class="grid-item">
+    <h2>{{item.category}}</h2>
+    <img src="{% if item.image %}{{ item.image }}{% else %}{% static 'images/no_image.png' %}{% endif %}" alt="">
+  </div>
+  {% endfor %}
+</div>
+
+<!-- SwiperJS CDN -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+  const swiper = new Swiper('.swiper', {
+    loop: true,
+    pagination: {
+      el: '.swiper-pagination',
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+  });
+</script>
+{% endblock content %}
