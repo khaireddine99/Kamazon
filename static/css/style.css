@@ -377,6 +377,25 @@ nav {
 
 }
 
+.form-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+  font-size: 1em;
+}
+
+.quantity-input {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1em;
+  width: 80px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+
 .quote {
   background: #1b9e1d;
 }
@@ -454,4 +473,98 @@ nav {
 .sort-form .item-count {
   margin-left: auto;
   font-weight: 600;
+}
+
+/* django messages styling */
+.messages {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+}
+
+.message {
+  padding: 15px 20px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  color: white;
+  font-size: 1em;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  animation: fadeOut 4s ease-out forwards;
+}
+
+.message.success {
+  background-color: #4CAF50;
+}
+
+.message.error {
+  background-color: #f44336;
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; display: none; }
+}
+
+/* Cart Styling */
+.cart-container.wide {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #fdfdfd;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.cart-table th,
+.cart-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
+}
+
+.cart-table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+}
+
+.product-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.product-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.remove-btn {
+  background: #e74c3c;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9em;
+}
+
+.remove-btn:hover {
+  background: #c0392b;
+}
+
+.cart-total {
+  text-align: right;
+  font-size: 1.2em;
+  margin-top: 1rem;
+  color: #111;
 }
