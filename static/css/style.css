@@ -479,9 +479,11 @@ nav {
 .messages {
   position: fixed;
   top: 20px;
-  right: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 999;
 }
+
 
 .message {
   padding: 15px 20px;
@@ -567,4 +569,28 @@ nav {
   font-size: 1.2em;
   margin-top: 1rem;
   color: #111;
+}
+
+/* Number on cart styling */
+.cart-icon-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.cart-badge {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  transform: translate(-30%, 30%);
+  background: red;
+  color: white;
+  border-radius: 50%;
+  width: 24px;              /* Increased from 20px */
+  height: 24px;             /* Increased from 20px */
+  font-size: 0.9rem;        /* Increased from 0.75rem */
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 2px rgba(0,0,0,0.2);
 }
