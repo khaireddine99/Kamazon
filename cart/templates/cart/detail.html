@@ -9,7 +9,7 @@
       <thead>
         <tr>
           <th>Product</th>
-          <th>Quantity</th>
+          <th style="padding-left: 50px;">Quantity</th>
           <th>Price</th>
           <th>Total</th>
           <th></th>
@@ -22,7 +22,14 @@
               <img src="{{ item.product.image }}" alt="{{ item.product.name }}" class="product-image">
               <span>{{ item.product.name }}</span>
             </td>
-            <td>{{ item.quantity }}</td>
+            <td>
+              <form method="post" action="{% url 'cart:cart_update' item.product.id %}" class="quantity-form">
+                {% csrf_token %}
+                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="quantity-input">
+                <button type="submit" class="update-btn">Update</button>
+              </form>
+            </td>
+
             <td>${{ item.product.price }}</td>
             <td>${{ item.total_price }}</td>
             <td><a href="{% url 'cart:cart_remove' item.product.id %}" class="remove-btn">Remove</a></td>

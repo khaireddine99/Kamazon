@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_POST
 from shop.models import Item
 from .cart import Cart
 from django.http import HttpResponseRedirect
@@ -39,3 +40,19 @@ def cart_remove(request, product_id):
 def cart_detail(request):
     cart = Cart(request)
     return render(request, 'cart/detail.html', {'cart': cart})
+
+@require_POST
+def cart_update(request, product_id):
+    cart = Cart(request)
+    product = get_object_or_404(Item, id=product_id)
+    
+    try:
+        quantity = int(request.POST.get("quantity", 1))
+        if quantity < 1:
+            quantity = 1
+    except (ValueError, TypeError):
+        quantity = 1
+
+    cart.add(product=product, quantity=quantity, override_quantity=True)
+    messages.success(request, 'Cart updated.')
+    return redirect('cart:cart_detail')

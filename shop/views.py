@@ -70,8 +70,6 @@ def shop_items(request):
         query_dict.pop('page')
     query_string = query_dict.urlencode()
 
-    print(items[0].image)
-
     context = {
         'items': paged_items,
         'categories': unique_categories,
