@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="order-container">
+    <h1 class="order-title">Fill in your order info</h1>
+
+    <form method="post" class="order-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn-submit">Submit</button>
+    </form>
+
+    <div class="cart-items">
+    {% for item in cart %}
+    <div class="cart-item">
+        <p class="cart-item-name">{{ item.product }}</p>
+        <p class="cart-item-details">
+            Price: ${{ item.price }} | Quantity: {{ item.quantity }}
+        </p>
+    </div>
+    {% empty %}
+    <p class="cart-empty">Your cart is empty.</p>
+    {% endfor %}
+
+    {% if cart|length > 0 %}
+    <div class="cart-total">
+        Total price: <strong>$ {{cart.get_total_price}}</strong> 
+    </div>
+    {% endif %}
+</div>
+
+</div>
+{% endblock content %}
