@@ -39,11 +39,14 @@
     </table>
 
     <div class="cart-total">
-      <strong>Total: ${{ cart.get_total_price }}</strong>
+      <strong>Total: ${{ cart.get_total_price }}</strong><br><br>
+      <form action="{% url 'payment:create_order' %}">
+        <button type="submit" class="checkout-btn">Checkout</button>
+        {% csrf_token %}
+      </form>
     </div>
   {% else %}
     <p>Your cart is empty.</p>
   {% endif %}
 </div>
-<a href="{% url 'payment:create_order' %}">checkout</a>
 {% endblock content %}

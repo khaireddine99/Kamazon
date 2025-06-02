@@ -1,6 +1,7 @@
 main landing page 
 
 items display page 
+    its weird when the search return 0 items, fix frontend
 
 item detail page
 

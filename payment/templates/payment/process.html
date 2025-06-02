@@ -1,14 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>
-        Success your payment is being processed
-    </h1>
-    
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="cart-container wide">
+  <h2 class="cart-title">Order Summary</h2>
+
+  
+    <table class="cart-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Total</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+          <tr>
+            <td class="product-info">
+              <img src="{{ item.item.image }}" alt="{{ item.item.name }}" class="product-image">
+              <span>{{ item.item.name }}</span>
+            </td>
+            <td style="padding-left: 4%;">
+              {{item.quantity}}
+            </td>
+
+            <td>${{ item.item.price }}</td>
+            <td>${{ item.total_price }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="cart-total">
+      <strong>Total: ${{ order.get_total_cost }}</strong><br><br>
+      <form action="{% url 'payment:process' %}" method="POST">
+          <button style="width: 100px;" type="submit" class="checkout-btn">Pay</button>
+          {% csrf_token %}
+      </form>
+    </div>
+</div>
+{% endblock content %}

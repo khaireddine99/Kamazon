@@ -14,7 +14,7 @@ class Order(models.Model):
         return f'order {self.id} - {self.email}'
 
     def get_total_cost(self):
-        return sum(item.get_total_price() for item in self.order_items.all())
+        return sum(item.get_total_price() for item in self.items.all())
 
 
 class OrderItem(models.Model):
@@ -22,7 +22,7 @@ class OrderItem(models.Model):
     Class to store the item and quantity belonging to an order
 
     '''
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_items')
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
