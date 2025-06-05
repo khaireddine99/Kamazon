@@ -54,7 +54,7 @@
         <img src="{{ item.image }}" alt="Product image" class="item-image">
       </div>
       <div class="item-right">
-        <h2 class="item-title">{{ item }}</h2>
+        <a href="{% url 'shop:item_detail' slug=item.slug %}" class="item-title-container"><h2 class="item-title">{{ item }}</h2></a>
         <p class="item-subtitle">{{ item.model }}</p>
         <ul class="item-specs">
           <li><strong> category: {{ item.category}} </strong></li>

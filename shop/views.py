@@ -1,6 +1,6 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import QueryDict
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Item
 import random
 
@@ -79,4 +79,11 @@ def shop_items(request):
 
     return render(request, 'shop.html', context)
 
+
+def item_detail(request, slug):
+    '''
+    view to return a single item
+    '''
+    item = get_object_or_404(Item, slug=slug)
+    return render(request, 'shop/detail.html', {'item':item})
 

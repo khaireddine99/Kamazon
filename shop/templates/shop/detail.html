@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="item-card-detail">
+    <div class="item-left">
+    <img src="{{ item.image }}" alt="Product image" class="item-image">
+    </div>
+    <div class="item-right">
+    <a href="{% url 'shop:item_detail' slug=item.slug %}" class="item-title-container"><h2 class="item-title">{{ item }}</h2></a>
+    <p class="item-subtitle">{{ item.model }}</p>
+    <ul class="item-specs">
+        <li><strong> category: {{ item.category}} </strong></li>
+        <li><strong> sub category: {{item.sub_category}} </strong></li>
+    </ul>
+    <div class="item-actions">
+        <div class="price">{{ item.price }} $</div>
+        <form action="{% url 'cart:cart_add' item.id %}" method="post">
+        {% csrf_token %}
+        <label for="quantity_{{ item.id }}" class="form-label">Quantity:</label>
+        <input
+            type="number"
+            name="quantity"
+            id="quantity_{{ item.id }}"
+            value="1" 
+            min="1"
+            max="100"
+            class="quantity-input"
+        >
+        <button type="submit" class="add-to-cart">Add to cart</button>
+        </form>
+    </div>
+    </div>
+</div>
+{% endblock content %}

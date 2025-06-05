@@ -141,6 +141,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # cart settings 
 CART_SESSION_ID = 'cart'
 
-# load stripe keys
+# load stripe api keys
 STRIPE_PUBLISHABLE_KEY=config('STRIPE_PUBLISHABLE_KEY')
 STRIPE_SECRET_KEY=config('STRIPE_SECRET_KEY')

@@ -291,6 +291,17 @@ nav {
   width: 1194px;
 }
 
+.item-card-detail {
+  display: flex;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #ccc;
+  margin: 20px;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  width: 97%;
+}
+
 .item-left {
   position: relative;
   flex: 1;
@@ -332,6 +343,14 @@ nav {
   font-size: 1.2em;
   margin-bottom: 5px;
   color: #0066cc;
+}
+
+.item-title-container {
+  text-decoration: none;
+}
+
+.item-title-container:hover  .item-title{
+  color: #b21be5;
 }
 
 .item-subtitle {
@@ -720,3 +739,4 @@ nav {
     color: #777;
 }
 
+/* Item detail page styles */
