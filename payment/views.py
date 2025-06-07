@@ -6,6 +6,7 @@ from django.urls import reverse
 from cart.cart import Cart
 from .forms import OrderForm
 from .models import OrderItem, Order
+from shop.utils.recommendation import update_recommendations
 
 stripe.api_key = settings.STRIPE_SECRET_KEY  # ✅ Use what's in settings
 
@@ -22,14 +23,20 @@ def create_order(request):
             order = form.save(commit=False)
             order.save()
             for item in cart:
-                print(item)
                 OrderItem.objects.create(
                     order=order,
                     item=item['product'],
                     price=item['price'],
                     quantity=item['quantity'],
                 )
-        
+
+            # fill in the redis database with item ids after creating the order
+            items_bought_together = []
+            for item in order.items.all():
+                items_bought_together.append(int(item.item.id))
+            
+            update_recommendations(items_bought_together)
+
         cart.clear()
         request.session['order_id'] = order.id
 
