@@ -3,6 +3,8 @@ from django.http import QueryDict
 from django.shortcuts import render, get_object_or_404
 from .models import Item
 import random
+from .utils.recommendation import get_recommendations
+import time
 
 def index(request):
     # get different categories and retrieve one item from each category
@@ -85,5 +87,15 @@ def item_detail(request, slug):
     view to return a single item
     '''
     item = get_object_or_404(Item, slug=slug)
-    return render(request, 'shop/detail.html', {'item':item})
+
+    # get recommended items based on the selected items
+    recommended_items_ids = get_recommendations(item.id)
+    recommended_items = Item.objects.filter(id__in=recommended_items_ids)
+
+    context = {
+        'item':item,
+        'recommended_items':recommended_items
+    }
+    
+    return render(request, 'shop/detail.html', context)
 
