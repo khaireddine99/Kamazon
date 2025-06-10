@@ -4,7 +4,6 @@ def update_recommendations(item_ids):
     """
     For each item, increment co-purchase score with all other items in the cart.
     """
-    print("adding items to the redis database -----------------------------------------------")
     for i in item_ids:
         for j in item_ids:
             if i != j:

@@ -13,5 +13,5 @@ online payment
 
 reviews and account (maybe ??? i am too lazy)
 
-confirm orders, maybe using sprite webhooks ?
+confirm orders, maybe using sprite webhooks ? 
 add gmail notifications to confirm ? maybe phone number too ? 
