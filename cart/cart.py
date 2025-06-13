@@ -55,3 +55,9 @@ class Cart:
     
     def __len__(self):
         return len(self.cart)
+    
+    def keys(self):
+        '''
+        return the ids of the items inside the cart
+        '''
+        return list(self.cart.keys())

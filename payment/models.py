@@ -20,7 +20,6 @@ class Order(models.Model):
 class OrderItem(models.Model):
     '''
     Class to store the item and quantity belonging to an order
-
     '''
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
     item = models.ForeignKey(Item, on_delete=models.CASCADE)

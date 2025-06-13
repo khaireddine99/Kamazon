@@ -49,4 +49,9 @@
     <p>Your cart is empty.</p>
   {% endif %}
 </div>
+<div>
+  {% for r in recommended_items %}
+  <p>{{r}}</p>
+  {% endfor %}
+</div>
 {% endblock content %}

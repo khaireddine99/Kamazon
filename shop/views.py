@@ -95,7 +95,7 @@ def item_detail(request, slug):
     # use another query if the recommended items are below 5 to add items to it
     if len(recommended_items_ids) < 5:
         additional_items_needed = 5 - len(recommended_items_ids)
-        additional_items = Item.objects.exclude(id__in=recommended_items_ids)[:additional_items_needed]
+        additional_items = Item.objects.exclude(id__in=recommended_items_ids).filter(category='stores')[:additional_items_needed]
         all_recommended_items = list(recommended_items) + list(additional_items)
         recommended_items = all_recommended_items
     

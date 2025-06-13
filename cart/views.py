@@ -5,6 +5,7 @@ from django.views.decorators.http import require_POST
 from shop.models import Item
 from .cart import Cart
 from django.http import HttpResponseRedirect
+from shop.utils.recommendation import get_combined_recommendations
 
 # Create your views here.
 def index(request):
@@ -39,7 +40,20 @@ def cart_remove(request, product_id):
 
 def cart_detail(request):
     cart = Cart(request)
-    return render(request, 'cart/detail.html', {'cart': cart})
+
+    # recommend items based on the items existing in the cart
+    item_ids = cart.keys()
+    recommended_items_ids = get_combined_recommendations(item_ids)
+    recommended_items = Item.objects.filter(id__in=recommended_items_ids)
+
+    # recommend more items if the recommended items are less than 5
+    if len(recommended_items_ids) < 5:
+        additional_items_needed = 5 - len(recommended_items_ids)
+        additional_items = Item.objects.exclude(id__in=recommended_items_ids).filter(category='stores')[:additional_items_needed]
+        all_recommended_items = list(recommended_items) + list(additional_items)
+        recommended_items = all_recommended_items
+
+    return render(request, 'cart/detail.html', {'cart': cart, 'recommended_items':recommended_items})
 
 @require_POST
 def cart_update(request, product_id):
