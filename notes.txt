@@ -15,5 +15,8 @@ reviews and account (maybe ??? i am too lazy)
 
 recommendation for multiple items
 
-confirm orders, maybe using sprite webhooks ? 
-add gmail notifications to confirm ? maybe phone number too ? 
+confirm orders, maybe using sprite webhooks ? (add paid: boolean, delived:boolean)
+
+add email(your order will be delivered in)
+
+facture 

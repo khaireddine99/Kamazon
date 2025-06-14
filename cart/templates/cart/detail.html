@@ -50,8 +50,26 @@
   {% endif %}
 </div>
 <div>
-  {% for r in recommended_items %}
-  <p>{{r}}</p>
-  {% endfor %}
+
+{% if cart|length > 0 %}
+<div class="recommendation-section">
+  <h2 class="recommendation-title">People also buy</h2>
+  <div class="recommendation-scroll">
+    
+    <!-- Recommended items bar -->
+    {% for recommended in recommended_items %}
+    <div class="product-card">
+      <img src="{{ recommended.image }}" alt="Product 1" class="product-image">
+      <a href="{% url 'shop:item_detail' slug=recommended.slug %}" class="item-title-container">
+        <h3 class="product-title" style="color: #0066cc;">{{recommended}}</h3>
+      </a>
+      <div class="product-rating">⭐⭐⭐⭐⭐ <span class="product-review-count">{{recommended.rating}}</span></div>
+      <div class="product-prices">
+        <span class="product-price">${{recommended.price}}</span>
+      </div>
+    </div>
+    {% endfor %}  
+  </div>
 </div>
+{% endif %}
 {% endblock content %}

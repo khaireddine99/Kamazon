@@ -9,6 +9,8 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     email = models.EmailField()
     phone_number = PhoneNumberField()
+    paid = models.BooleanField(default=False)
+    delivered = models.BooleanField(default=False)
 
     def __str__(self):
         return f'order {self.id} - {self.email}'
