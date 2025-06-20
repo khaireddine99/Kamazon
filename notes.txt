@@ -1,4 +1,5 @@
 main landing page 
+    code links for category items
 
 items display page 
     its weird when the search return 0 items, fix frontend
@@ -19,4 +20,8 @@ confirm orders, maybe using sprite webhooks ? (add paid: boolean, delived:boolea
 
 add email(your order will be delivered in)
 
-facture 
+add address to order
+
+paypment cancel/success front end
+
+security google recaptcha

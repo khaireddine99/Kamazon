@@ -7,6 +7,8 @@ from cart.cart import Cart
 from .forms import OrderForm
 from .models import OrderItem, Order
 from shop.utils.recommendation import update_recommendations
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
 
 stripe.api_key = settings.STRIPE_SECRET_KEY  # ✅ Use what's in settings
 
@@ -72,6 +74,9 @@ def process_payment(request):
             'client_reference_id':order.id,
             'success_url':success_url,
             'cancel_url':cancel_url,
+            'metadata': {
+                'order_id': str(order.id)
+            },
             'line_items':[]
         }
 
@@ -105,3 +110,33 @@ def payment_completed(request):
 
 def payment_canceled(request):
     return render(request, 'payment/canceled.html')
+
+@csrf_exempt
+def stripe_webhook(request):
+    '''
+    Stripe webhook view, notify when an order is paid
+    '''
+    payload = request.body
+    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
+    endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, endpoint_secret
+        )
+    except (ValueError, stripe.error.SignatureVerificationError):
+        return HttpResponse(status=400)
+
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
+        order_id = session.get('metadata', {}).get('order_id')
+
+        if order_id:
+            try:
+                order = Order.objects.get(id=order_id)
+                order.paid = True
+                order.save()
+            except Order.DoesNotExist:
+                pass
+
+    return HttpResponse(status=200)
