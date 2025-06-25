@@ -9,6 +9,8 @@ from .models import OrderItem, Order
 from shop.utils.recommendation import update_recommendations
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+from django.core.mail import send_mail
+from datetime import date, timedelta
 
 stripe.api_key = settings.STRIPE_SECRET_KEY  # ✅ Use what's in settings
 
@@ -136,6 +138,16 @@ def stripe_webhook(request):
                 order = Order.objects.get(id=order_id)
                 order.paid = True
                 order.save()
+
+                # send an email to the client after the order has been paid
+                send_mail(
+                    subject='Thank you for shopping with Kamazon',
+                    message=f'Your order has been paid, you paid... at ..., your order will be delivered to... at ...',
+                    from_email='khairisigma@gmail.com',
+                    recipient_list=['khairisama1999@gmail.com'],
+                    fail_silently=False,
+                )
+       
             except Order.DoesNotExist:
                 pass
 
