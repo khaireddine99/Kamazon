@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>
-        payment completed
-    </h1>
-    
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="text-align: center; padding: 60px 20px;">
+    <h1 style="font-size: 2.5em; color: #4CAF50;">✅ Thank you for your purchase!</h1>
+    <p style="font-size: 1.2em; margin-top: 15px;">Your payment was successful.</p>
+    <p style="margin-top: 10px;">A confirmation email has been sent to you.</p>
+</div>
+{% endblock %}
