@@ -24,6 +24,7 @@ def create_order(request):
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
+            print("order form is valid")
             order = form.save(commit=False)
             order.save()
             for item in cart:
@@ -41,8 +42,12 @@ def create_order(request):
             
             update_recommendations(items_bought_together)
 
+        else:
+            print("order form is invalid")
+            
         cart.clear()
         request.session['order_id'] = order.id
+        
 
         return redirect('payment:process')
     else:
@@ -140,11 +145,16 @@ def stripe_webhook(request):
                 order.save()
 
                 # send an email to the client after the order has been paid
+                today = date.today()
+                formatted_date = today.strftime("%B %d, %Y")
+                eta_date = today + timedelta(days=3)
+                formatted_eta_date = eta_date.strftime("%B %d, %Y")
+
                 send_mail(
                     subject='Thank you for shopping with Kamazon',
-                    message=f'Your order has been paid, you paid... at ..., your order will be delivered to... at ...',
+                    message=f'Your order has been paid, it cost {order.get_total_cost()}$, payment happened at {formatted_date}, your order will be delivered to {order.address} at {formatted_eta_date}',
                     from_email='khairisigma@gmail.com',
-                    recipient_list=['khairisama1999@gmail.com'],
+                    recipient_list=[order.email],
                     fail_silently=False,
                 )
        

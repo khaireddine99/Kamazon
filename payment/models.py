@@ -11,6 +11,7 @@ class Order(models.Model):
     phone_number = PhoneNumberField()
     paid = models.BooleanField(default=False)
     delivered = models.BooleanField(default=False)
+    address = models.CharField(max_length=200)
 
     def __str__(self):
         return f'order {self.id} - {self.email}'
