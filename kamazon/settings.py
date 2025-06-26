@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'shop',
     'cart',
     'payment',
+    'django_recaptcha',
 ]
 
 MIDDLEWARE = [
@@ -154,4 +155,9 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')  # or hardcode for testing
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')  # or hardcode for testing
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# google recaptcha settings
+RECAPTCHA_PUBLIC_KEY = config('RECAPTCHA_PUBLIC_KEY')
+RECAPTCHA_PRIVATE_KEY = config('RECAPTCHA_PRIVATE_KEY')
+RECAPTCHA_USE_SSL = True 
 

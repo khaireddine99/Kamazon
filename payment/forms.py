@@ -1,7 +1,10 @@
 from django import forms
 from .models import Order
+from django_recaptcha.fields import ReCaptchaField
 
 class OrderForm(forms.ModelForm):
+    captcha = ReCaptchaField()
+    
     class Meta:
         model = Order
         fields = ['email', 'phone_number', 'address']

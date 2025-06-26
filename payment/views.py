@@ -18,7 +18,6 @@ def index(request):
     return render(request, 'payment/index.html')
 
 def create_order(request):
-    # create the cart
     cart = Cart(request)
     
     if request.method == 'POST':
@@ -35,29 +34,25 @@ def create_order(request):
                     quantity=item['quantity'],
                 )
 
-            # fill in the redis database with item ids after creating the order
-            items_bought_together = []
-            for item in order.items.all():
-                items_bought_together.append(int(item.item.id))
-            
+            items_bought_together = [int(item.item.id) for item in order.items.all()]
             update_recommendations(items_bought_together)
+
+            cart.clear()
+            request.session['order_id'] = order.id
+            
+            return redirect('payment:process')
 
         else:
             print("order form is invalid")
-            
-        cart.clear()
-        request.session['order_id'] = order.id
-        
+            form.add_error(None, 'Invalid reCAPTCHA. Please try again.')
+            # Do NOT redirect here; let the code fall through to re-render the form
 
-        return redirect('payment:process')
     else:
         form = OrderForm()
-    
-    return render(
-        request,
-        'payment/create_order.html',
-        {'cart':cart, 'form':form}
-    )
+
+    # Render the form with errors if any
+    return render(request, 'payment/create_order.html', {'cart': cart, 'form': form})
+
 
 def process_payment(request):
     '''
