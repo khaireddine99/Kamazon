@@ -40,9 +40,8 @@
 
     <div class="cart-total">
       <strong>Total: ${{ cart.get_total_price }}</strong><br><br>
-      <form action="{% url 'payment:create_order' %}">
-        <button type="submit" class="checkout-btn">Checkout</button>
-        {% csrf_token %}
+      <form action="{% url 'payment:create_order' %}" method="get">
+          <button type="submit" class="checkout-btn">Checkout</button>
       </form>
     </div>
   {% else %}

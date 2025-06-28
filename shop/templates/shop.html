@@ -48,45 +48,49 @@
       <button type="submit">Sort</button>
     </form>
 
-    {% for item in items %}
-    <div class="item-card">
-      <div class="item-left">
-        <img src="{{ item.image }}" alt="Product image" class="item-image">
-      </div>
-      <div class="item-right">
-        <a href="{% url 'shop:item_detail' slug=item.slug %}" class="item-title-container"><h2 class="item-title">{{ item }}</h2></a>
-        <p class="item-subtitle">{{ item.model }}</p>
-        <ul class="item-specs">
-          <li><strong> category: {{ item.category}} </strong></li>
-          <li><strong> sub category: {{item.sub_category}} </strong></li>
-        </ul>
-        <div class="item-actions">
-          <div class="price">{{ item.price }} $</div>
-          <form action="{% url 'cart:cart_add' item.id %}" method="post">
-            {% csrf_token %}
-            <label for="quantity_{{ item.id }}" class="form-label">Quantity:</label>
-            <input
-              type="number"
-              name="quantity"
-              id="quantity_{{ item.id }}"
-              value="1"
-              min="1"
-              max="100"
-              class="quantity-input"
-            >
-            <button type="submit" class="add-to-cart">Add to cart</button>
-          </form>
-
+    {% if items %}
+  {% for item in items %}
+      <div class="item-card">
+        <div class="item-left">
+          <img src="{{ item.image }}" alt="Product image" class="item-image">
+        </div>
+        <div class="item-right">
+          <a href="{% url 'shop:item_detail' slug=item.slug %}" class="item-title-container"><h2 class="item-title">{{ item }}</h2></a>
+          <p class="item-subtitle">{{ item.model }}</p>
+          <ul class="item-specs">
+            <li><strong> category: {{ item.category}} </strong></li>
+            <li><strong> sub category: {{item.sub_category}} </strong></li>
+          </ul>
+          <div class="item-actions">
+            <div class="price">{{ item.price }} $</div>
+            <form action="{% url 'cart:cart_add' item.id %}" method="post">
+              {% csrf_token %}
+              <label for="quantity_{{ item.id }}" class="form-label">Quantity:</label>
+              <input
+                type="number"
+                name="quantity"
+                id="quantity_{{ item.id }}"
+                value="1"
+                min="1"
+                max="100"
+                class="quantity-input"
+              >
+              <button type="submit" class="add-to-cart">Add to cart</button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-    {% endfor %}
-    <div class="pagination">
-  {% if items.has_previous %}
+      {% endfor %}
+      <div class="pagination">
+    {% if items.has_previous %}
     <a href="?{{ query_string|safe }}&page={{ items.previous_page_number }}" class="pagination-button">« Previous</a>
+    {% endif %}
+    <span class="pagination-info">Page {{ items.number }} of {{ items.paginator.num_pages }}</span>
+  {% else %}
+    <h1 class="message-card">No items found matching your criteria. Please try adjusting your filters or search.</h1>
   {% endif %}
 
-  <span class="pagination-info">Page {{ items.number }} of {{ items.paginator.num_pages }}</span>
+
 
   {% if items.has_next %}
     <a href="?{{ query_string|safe }}&page={{ items.next_page_number }}" class="pagination-button">Next »</a>

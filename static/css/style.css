@@ -291,6 +291,15 @@ nav {
   width: 1194px;
 }
 
+.message-card {
+  display: flex;
+  background: white;
+  margin: 20px 0;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  width: 1194px;
+}
+
 .item-card-detail {
   display: flex;
   background: white;
